@@ -9,10 +9,6 @@ import java.sql.*;
  * 使用批量更新语句将他们的年龄增加 10 年，
  * 最后删除了年龄超过 30 岁的员工记录。
  *
- * 需要注意的是，这里使用了一个名为 departments 的表来进行连接查询，
- * 但我们并没有在代码中创建这个表。
- * 如果你想运行这个示例，请先自行创建一个名为 departments 的表，
- * 并插入一些数据，以保证连接查询能够成功执行。
  */
 public class SQLiteExample {
     public static void main(String[] args) {
