@@ -1,3 +1,4 @@
+import com.light.rain.util.UniqueIdUtil;
 import org.junit.Test;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import static com.light.rain.util.Md5Util.*;
  * @Version：1.0
  **/
 public class JunitTest {
+
     @Test
     public void Base64UtilTest() {
         int param = 1234567891;
@@ -70,4 +72,15 @@ public class JunitTest {
         System.out.println("获取16位小写Md5加密 = " + encrypt16bitLowerCase(123));
         System.out.println("获取16位小写Md5加密 = " + encrypt16bitLowerCase(123L));
     }
+
+    @Test
+    public void UniqueIdUtilTest() {
+        System.out.println("UniqueIdUtil.getFastSimpleUUID() = " + UniqueIdUtil.getFastSimpleUUID());
+        System.out.println("UniqueIdUtil.getUUID() = " + UniqueIdUtil.getUUID());
+        System.out.println("UniqueIdUtil.getFastUUID() = " + UniqueIdUtil.getFastUUID());
+        System.out.println("UniqueIdUtil.getRandomUUID() = " + UniqueIdUtil.getRandomUUID());
+        System.out.println("UniqueIdUtil.getSnowflakesId() = " + UniqueIdUtil.getSnowflakesId());
+        System.out.println("UniqueIdUtil.getObjectId() = " + UniqueIdUtil.getObjectId());
+    }
+
 }
