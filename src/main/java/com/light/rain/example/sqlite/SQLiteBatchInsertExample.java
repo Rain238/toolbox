@@ -1,8 +1,14 @@
-package com.light.rain.example;
+package com.light.rain.example.sqlite;
 
 import java.sql.*;
 
-public class SQLiteExample {
+/**
+ *
+ * 在这个示例中，我们使用了 PreparedStatement 的 addBatch() 和 executeBatch() 方法来批量插入数据。
+ * 我们首先关闭了自动提交模式，以便在插入数据后手动提交。
+ * 然后，我们循环10000次，每次将一条记录添加到批处理中，最后执行批处理并提交更改
+ */
+public class SQLiteBatchInsertExample {
     public static void main(String[] args) {
         Connection conn = null;
         try {
@@ -24,26 +30,19 @@ public class SQLiteExample {
                 System.out.println("Table created successfully.");
             }
 
-            // 插入一条数据
+            // 批量插入数据
+            conn.setAutoCommit(false);
             String insertSql = "INSERT INTO employees (name, age, salary) VALUES (?, ?, ?)";
             PreparedStatement pstmt = conn.prepareStatement(insertSql);
-            pstmt.setString(1, "Alice");
-            pstmt.setInt(2, 25);
-            pstmt.setDouble(3, 50000.0);
-            pstmt.executeUpdate();
-            System.out.println("Data inserted successfully.");
-
-            // 查询数据
-            String selectSql = "SELECT id, name, age, salary FROM employees";
-            Statement selectStmt = conn.createStatement();
-            rs = selectStmt.executeQuery(selectSql);
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
-                int age = rs.getInt("age");
-                double salary = rs.getDouble("salary");
-                System.out.println("ID = " + id + ", NAME = " + name + ", AGE = " + age + ", SALARY = " + salary);
+            for (int i = 0; i < 10000; i++) {
+                pstmt.setString(1, "Employee " + i);
+                pstmt.setInt(2, 25 + i % 10);
+                pstmt.setDouble(3, 50000.0 + i * 1000);
+                pstmt.addBatch();
             }
+            pstmt.executeBatch();
+            conn.commit();
+            System.out.println("Data inserted successfully.");
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         } finally {
