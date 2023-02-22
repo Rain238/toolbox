@@ -10,16 +10,19 @@ public class SQLiteExample {
             conn = DriverManager.getConnection(url);
             System.out.println("Connection to SQLite has been established.");
 
-            // 创建一个新表
+            // 检查表是否存在，如果不存在则创建表
             Statement stmt = conn.createStatement();
-            String sql = "CREATE TABLE IF NOT EXISTS employees ("
-                    + " id integer PRIMARY KEY AUTOINCREMENT,"
-                    + " name text NOT NULL,"
-                    + " age integer,"
-                    + " salary real"
-                    + ");";
-            stmt.executeUpdate(sql);
-            System.out.println("Table created successfully.");
+            ResultSet rs = stmt.executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='employees'");
+            if (!rs.next()) {
+                String sql = "CREATE TABLE employees ("
+                        + " id integer PRIMARY KEY AUTOINCREMENT,"
+                        + " name text NOT NULL,"
+                        + " age integer,"
+                        + " salary real"
+                        + ");";
+                stmt.executeUpdate(sql);
+                System.out.println("Table created successfully.");
+            }
 
             // 插入一条数据
             String insertSql = "INSERT INTO employees (name, age, salary) VALUES (?, ?, ?)";
@@ -33,7 +36,7 @@ public class SQLiteExample {
             // 查询数据
             String selectSql = "SELECT id, name, age, salary FROM employees";
             Statement selectStmt = conn.createStatement();
-            ResultSet rs = selectStmt.executeQuery(selectSql);
+            rs = selectStmt.executeQuery(selectSql);
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
