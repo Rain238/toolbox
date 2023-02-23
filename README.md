@@ -23,3 +23,4 @@
 > > > [FileUtil.java](src%2Fmain%2Fjava%2Fcom%2Flight%2Frain%2Futil%2FFileUtil.java) 文件读写/网络文件下载工具</br>
 > > > [Md5Util.java](src%2Fmain%2Fjava%2Fcom%2Flight%2Frain%2Futil%2FMd5Util.java) Md5加密工具</br>
 > > > [UniqueIdUtil.java](src%2Fmain%2Fjava%2Fcom%2Flight%2Frain%2Futil%2FUniqueIdUtil.java) 唯一ID标识工具</br>
+## 本项目使用[GNU GENERAL PUBLIC LICENSE](LICENSE)开源协议
