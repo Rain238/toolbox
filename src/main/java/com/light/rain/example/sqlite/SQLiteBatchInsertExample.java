@@ -3,7 +3,6 @@ package com.light.rain.example.sqlite;
 import java.sql.*;
 
 /**
- *
  * 在这个示例中，我们使用了 PreparedStatement 的 addBatch() 和 executeBatch() 方法来批量插入数据。
  * 我们首先关闭了自动提交模式，以便在插入数据后手动提交。
  * 然后，我们循环10000次，每次将一条记录添加到批处理中，最后执行批处理并提交更改

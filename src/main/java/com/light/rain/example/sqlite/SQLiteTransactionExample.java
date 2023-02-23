@@ -4,7 +4,7 @@ import java.sql.*;
 
 /**
  * 处理事务
- *
+ * <p>
  * 在这个示例中，我们通过将 Connection 的 setAutoCommit() 方法设置为 false 来禁用自动提交，
  * 并在多个 SQL 语句中执行事务。如果所有操作都成功，我们就提交事务；否则，我们就回滚事务。
  */
