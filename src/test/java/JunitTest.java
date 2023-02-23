@@ -1,6 +1,11 @@
+import com.light.rain.util.Charset;
+import com.light.rain.util.FileUtil;
 import com.light.rain.util.UniqueIdUtil;
+import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 import static com.light.rain.util.Base64Util.*;
@@ -81,6 +86,53 @@ public class JunitTest {
         System.out.println("UniqueIdUtil.getRandomUUID() = " + UniqueIdUtil.getRandomUUID());
         System.out.println("UniqueIdUtil.getSnowflakesId() = " + UniqueIdUtil.getSnowflakesId());
         System.out.println("UniqueIdUtil.getObjectId() = " + UniqueIdUtil.getObjectId());
+    }
+    /**
+     * @Author: LightRain
+     * @Date: 23/2/2023 下午 5:35
+     * @Param: []
+     * @Return: void
+     * @Description: 测试FileUtil文件写入
+     */
+    @Test
+    public void FileUtilTest() throws IOException {
+        System.out.println("FileUtil = " + FileUtil.readData("D:\\项目\\alicia\\alicia\\src\\main\\resources\\url.txt"));
+        List<String> list = FileUtil.readData("D:\\项目\\alicia\\alicia\\src\\main\\resources\\url.txt");
+        for (String s : list) {
+            FileUtil.writeData("D:\\项目\\alicia\\alicia\\src\\main\\resources\\123456.txt",s,true);
+        }
+    }
+
+    /**
+     * @Author: LightRain
+     * @Date: 23/2/2023 下午 5:33
+     * @Param: []
+     * @Return: void
+     * @Description: 测试FileUtil网络复制功能
+     */
+    @Test
+    public void FileUtilTest2() throws IOException {
+        List<String> list = new LinkedList<>();
+        list.add("https://t4.wodetu.cn/2022/10/19/d297b2a8e02ade7642969f6306121748.png");
+        list.add("https://cdn-cookieyes.com/client_data/b625465893342370098580f1/audit-table/YMZEyO_0.json");
+        FileUtil.copyURLToFile(list,"D:\\项目\\alicia\\alicia\\src\\main\\resources\\16.txt");
+        FileUtil.copyURLToFile("https://cdn-cookieyes.com/client_data/b625465893342370098580f1/audit-table/YMZEyO_0.json","D:\\项目\\alicia\\alicia\\src\\main\\resources\\17.txt");
+    }
+
+    @Test
+    public void FileUtilTest3() throws IOException {
+        List<String> list = FileUtil.readData("D:\\项目\\alicia\\alicia\\src\\main\\resources\\url.txt");
+        for (String s : list) {
+            FileUtil.writeData("D:\\008.txt",s, Charset.UTF_8,true);
+        }
+    }
+
+    @Test
+    public void FileUtilTest4() throws IOException {
+        System.out.println("FileUtils.byteCountToDisplaySize(1000) = " + FileUtils.byteCountToDisplaySize((long) (1024*1024*1024)));
+        int urlFileSize = FileUtil.getURLFileSize("https://t4.wodetu.cn/2022/10/19/d297b2a8e02ade7642969f6306121748.png");
+        System.out.println(" = >>>>>" + FileUtil.copyURLToFileSize("https://t4.wodetu.cn/2022/10/19/d297b2a8e02ade7642969f6306121748.png", "D:\\项目\\alicia\\alicia\\src\\main\\resources\\", 9865536));
+        System.out.println("urlFileSize = " + urlFileSize);
     }
 
 }
