@@ -63,7 +63,8 @@ public class DateFormatUtil {
      * @Date: 21/2/2023 下午 4:30
      * @Param: [day, pattern] int 日期表达式
      * @Return: java.lang.String
-     * @Description: 获取指定日期格式</ br>
+     * @Description: 获取指定日期格式
+     * </br>
      * 日期表达式：&nbsp yyyy-MM-dd hh:mm:ss</br>
      * 24小时表达式：&nbsp yyyy-MM-dd HH:mm:ss
      */
@@ -78,11 +79,12 @@ public class DateFormatUtil {
      * @Date: 21/2/2023 下午 5:04
      * @Param: [date, pattern] 偏移时间 日期表达式
      * @Return: long
-     * @Description: ISO偏移日期时间转换成时间戳</ br>
+     * @Description: ISO偏移日期时间转换成时间戳
+     * </br>
      * 例:</br>
      * date='2022-11-25T18:45:47+00:00'</br>
-     * pattern='yyyy-MM-dd HH:mm:ss'
-     * 2022-11-25T06:45:47+00:00→1669329947000
+     * pattern='yyyy-MM-dd HH:mm:ss'</br>
+     * 2022-11-25T06:45:47+00:00→1669329947000</br>
      * 转换为正常24小时格式的时间戳
      */
     public static long getTime(String date) {
@@ -94,11 +96,12 @@ public class DateFormatUtil {
      * @Date: 21/2/2023 下午 5:04
      * @Param: [date, pattern] 偏移时间 日期表达式
      * @Return: long
-     * @Description: ISO偏移日期时间转换成时间戳</ br>
+     * @Description: ISO偏移日期时间转换成时间戳
+     * </br>
      * 例:</br>
      * date='2022-11-25T18:45:47+00:00'</br>
-     * pattern='yyyy-MM-dd HH:mm:ss'
-     * 2022-11-25T06:45:47+00:00→1669329947000
+     * pattern='yyyy-MM-dd HH:mm:ss'</br>
+     * 2022-11-25T06:45:47+00:00→1669329947000</br>
      * 转换为正常24小时格式的时间戳
      */
     public static long getTime(String date, String pattern) {
@@ -110,11 +113,12 @@ public class DateFormatUtil {
      * @Date: 21/2/2023 下午 5:04
      * @Param: [date, pattern] 偏移时间 日期表达式
      * @Return: long
-     * @Description: ISO偏移日期时间转换成时间戳</ br>
+     * @Description: ISO偏移日期时间转换成时间戳
+     * </br>
      * 例:</br>
      * date='2022-11-25T18:45:47+00:00'</br>
-     * pattern='yyyy-MM-dd HH:mm:ss'
-     * 2022-11-25T06:45:47+00:00→1669329947000
+     * pattern='yyyy-MM-dd HH:mm:ss'</br>
+     * 2022-11-25T06:45:47+00:00→1669329947000</br>
      * 转换为正常24小时格式的时间戳
      */
     private static long getTimestamp(String date, String pattern) {
