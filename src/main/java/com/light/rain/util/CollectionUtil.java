@@ -270,6 +270,7 @@ public class CollectionUtil {
      *         例：List<String> list = Arrays.asList("A","A", "B", "C");
      *         CollectionUtil.findFirst(list).ifPresent(System.out::println)
      *      }
+     * </pre>
      * @since 17
      */
     public static <T> Optional<T> findFirst(List<T> list) {
