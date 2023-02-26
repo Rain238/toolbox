@@ -1,4 +1,5 @@
 import com.light.rain.build.Builder;
+import com.light.rain.example.pojo.Page;
 import com.light.rain.example.pojo.Student;
 import com.light.rain.util.*;
 import org.apache.commons.io.FileUtils;
@@ -295,6 +296,16 @@ public class JunitTest {
         list.add(new Student("李四", 17));
         long count = CollectionUtil.count(list,stu->stu.getAge()>16);
         System.out.println("count = " + count);
+    }
+
+    @Test
+    public void MapUtilTest13() {
+        Builder.builder(Student::new).link(Student::setName, "张三").link(Student::setAge, 16).build();
+        Builder.builder(Page::new).link(Page::setStart,0).link(Page::setPageSize,20).build();
+    }
+
+    @Test
+    public void MapUtilTest14() {
     }
 
 }
