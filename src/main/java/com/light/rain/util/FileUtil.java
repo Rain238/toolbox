@@ -2,6 +2,7 @@ package com.light.rain.util;
 
 import com.light.rain.exception.FilePathErrorException;
 import org.apache.commons.io.FileUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.net.URL;
@@ -13,6 +14,12 @@ import java.util.List;
 /**
  * @Author: LightRain
  * @Description: 文件读写/网络文件下载工具
+ * </br>
+ * 包括文件读写
+ * </br>
+ * 网络文件下载
+ * </br>
+ * 接收文件上传
  * @DateTime: 2023-02-22 21:43
  * @Version：1.0
  **/
@@ -90,6 +97,7 @@ public class FileUtil {
     public static int getURLFileSize(String url) throws IOException {
         return getURLFileSizePrivate(url);
     }
+
     /**
      * @Author: LightRain
      * @Date: 24/2/2023 上午 12:25
@@ -941,6 +949,85 @@ public class FileUtil {
             throw new FilePathErrorException("File path cannot be a directory");
         }
         new PrintWriter(new FileWriter(path, charset, append), true).println(data);
+    }
+
+    /**
+     * @Author: LightRain
+     * @Date: 27/2/2023 上午 2:04
+     * @Param: [file, storagePath, originalName]
+     * @Return: java.lang.String
+     * @Description: 将图片或文件上传到指定文件夹内
+     * <pre>{@code originalName-为true则保留原文件名称}</pre>
+     * @since 17
+     */
+    public static String uploadImg(MultipartFile file, String storagePath, boolean originalName) throws IOException {
+        return uploadImgPrivate(file, storagePath, originalName);
+    }
+
+    /**
+     * @Author: LightRain
+     * @Date: 27/2/2023 上午 2:07
+     * @Param: [file, storagePath, originalName]
+     * @Return: java.lang.String
+     * @Description: 将图片或文件上传到指定文件夹内
+     * <pre>{@code originalName-为true则保留原文件名称}</pre>
+     * @since 17
+     */
+    public static String uploadImg(MultipartFile file, File storagePath, boolean originalName) throws IOException {
+        return uploadImgPrivate(file, storagePath.getPath(), originalName);
+    }
+
+    /**
+     * @Author: LightRain
+     * @Date: 27/2/2023 上午 2:08
+     * @Param: [file, storagePath]
+     * @Return: java.lang.String
+     * @Description: 将图片或文件上传到指定文件夹内
+     * </br>
+     * 默认使用UUID重新命名
+     * @since 17
+     */
+    public static String uploadImg(MultipartFile file, String storagePath) throws IOException {
+        return uploadImgPrivate(file, storagePath, false);
+    }
+
+    /**
+     * @Author: LightRain
+     * @Date: 27/2/2023 上午 2:08
+     * @Param: [file, storagePath]
+     * @Return: java.lang.String
+     * @Description: 将图片或文件上传到指定文件夹内
+     * </br>
+     * 默认使用UUID重新命名
+     * @since 17
+     */
+    public static String uploadImg(MultipartFile file, File storagePath) throws IOException {
+        return uploadImgPrivate(file, storagePath.getPath(), false);
+    }
+    /**
+     * @Author: LightRain
+     * @Date: 27/2/2023 上午 2:11
+     * @Param: [file, storagePath, originalName]
+     * @Return: java.lang.String
+     * @Description: 将图片或文件上传到指定文件夹内
+     * <pre>{@code originalName-为true则保留原文件名称}</pre>
+     * @since 17
+     */
+    @SuppressWarnings("all")
+    private static String uploadImgPrivate(MultipartFile file, String storagePath, boolean originalName) throws IOException {
+        if (!new File(storagePath).exists()) {
+            new File(storagePath).mkdirs();
+        }
+        if (originalName) {
+            String originalFilename = file.getOriginalFilename();
+            file.transferTo(new File(String.format("%s\\%s", storagePath, originalFilename)));
+            return originalFilename;
+        }
+        String fastUUID = UniqueIdUtil.getFastSimpleUUID();
+        String originalFilename = file.getOriginalFilename();
+        String suffix = originalFilename.substring(originalFilename.lastIndexOf("."));
+        file.transferTo(new File(String.format("%s\\%s%s", storagePath, fastUUID, suffix)));
+        return fastUUID + suffix;
     }
 
 }
