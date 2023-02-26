@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 
 /**
  * @Author: LightRain
- * @Description: Lambda链式构建工具
+ * @Description: Lambda建造者构建工具
  * @DateTime: 2023-02-24 10:07
  * @Version：1.0
  * </br>
@@ -44,6 +44,7 @@ public class Builder<T> {
     public static <T> Builder<T> builder(Supplier<T> supplier) {
         return new Builder<>(supplier);
     }
+
 
     /**
      * @Author: LightRain
