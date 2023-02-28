@@ -5,6 +5,7 @@ import com.light.rain.util.*;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -280,7 +281,7 @@ public class JunitTest {
         list.add(new Student("张三", 16));
         list.add(new Student("李四", 17));
         Optional<Student> max1 = CollectionUtil.min(list, Student::getAge);
-        max1.ifPresent(info -> System.out.println(info.getName()+info.getAge()));
+        max1.ifPresent(info -> System.out.println(info.getName() + info.getAge()));
         Set<Student> set = new HashSet<>();
         set.add(new Student("张三", 16));
         set.add(new Student("李四", 17));
@@ -294,18 +295,53 @@ public class JunitTest {
         list.add(new Student("张三", 16));
         list.add(new Student("张三", 18));
         list.add(new Student("李四", 17));
-        long count = CollectionUtil.count(list,stu->stu.getAge()>16);
+        long count = CollectionUtil.count(list, stu -> stu.getAge() > 16);
         System.out.println("count = " + count);
     }
 
     @Test
     public void MapUtilTest13() {
         Builder.builder(Student::new).link(Student::setName, "张三").link(Student::setAge, 16).build();
-        Builder.builder(Page::new).link(Page::setStart,0).link(Page::setPageSize,20).build();
+        Builder.builder(Page::new).link(Page::setStart, 0).link(Page::setPageSize, 20).build();
     }
 
     @Test
-    public void MapUtilTest14() {
+    public void EmailUtilTest() throws MessagingException {
+        boolean b = EmailUtil.sendMail("测试邮件", "测试内容", "3164395730@qq.com", "xxxxx@aliyun.com", "123456", SmtpHost.SMTP_ALIYUN);
+        System.out.println("b = " + b);
+    }
+
+    @Test
+    public void EmailUtilTest2() throws MessagingException {
+        EmailUtil e = new EmailUtil();
+        e.setTitle("测试邮件");
+        e.setContent("测试邮件1");
+        e.setRecipientAccount("3164395730@qq.com");
+        e.setSenderAccount("xxxxx@aliyun.com");
+        e.setAuthorizationCode("123456");
+        e.setSmtpHost(SmtpHost.SMTP_ALIYUN);
+        boolean b = e.sendMail();
+        System.out.println("b = " + b);
+    }
+
+    @Test
+    public void EmailUtilTest3() throws MessagingException {
+        EmailUtil e = new EmailUtil("3164395730@qq.com", "xxxxxx@aliyun.com", "123456", SmtpHost.SMTP_ALIYUN);
+        e.setTitle("测试邮件");
+        e.setContent("测试邮件1");
+        boolean b = e.sendMail();
+        System.out.println("b = " + b);
+    }
+
+    @Test
+    public void EmailUtilTest4() throws MessagingException {
+        EmailUtil e = new EmailUtil();
+        e.setRecipientAccount("3164395730@qq.com");
+        e.setSenderAccount("xxxxx@aliyun.com");
+        e.setAuthorizationCode("123456");
+        e.setSmtpHost(SmtpHost.SMTP_ALIYUN);
+        boolean b = e.sendMail("测试邮件2", "123456");
+        System.out.println("b = " + b);
     }
 
 }
