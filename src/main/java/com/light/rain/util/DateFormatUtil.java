@@ -12,7 +12,7 @@ import java.util.GregorianCalendar;
  * @Author: LightRain
  * @Description: 日期处理工具
  * @DateTime: 2023-02-21 17:18
- * @Version：1.0
+ * @Version：1.1
  **/
 public class DateFormatUtil {
 
@@ -79,7 +79,7 @@ public class DateFormatUtil {
      * @Date: 21/2/2023 下午 5:04
      * @Param: [date, pattern] 偏移时间 日期表达式
      * @Return: long
-     * @Description: ISO偏移日期时间转换成时间戳
+     * @Description: ISO偏移日期转时间戳
      * </br>
      * 例:</br>
      * date='2022-11-25T18:45:47+00:00'</br>
@@ -87,7 +87,7 @@ public class DateFormatUtil {
      * 2022-11-25T06:45:47+00:00→1669329947000</br>
      * 转换为正常24小时格式的时间戳
      */
-    public static long getTime(String date) {
+    public static long isoDateToTimeStamp(String date) {
         return getTimestamp(date, "yyyy-MM-dd HH:mm:ss");
     }
 
@@ -96,7 +96,7 @@ public class DateFormatUtil {
      * @Date: 21/2/2023 下午 5:04
      * @Param: [date, pattern] 偏移时间 日期表达式
      * @Return: long
-     * @Description: ISO偏移日期时间转换成时间戳
+     * @Description: ISO偏移日期转时间戳, 可指定日期格式
      * </br>
      * 例:</br>
      * date='2022-11-25T18:45:47+00:00'</br>
@@ -104,8 +104,49 @@ public class DateFormatUtil {
      * 2022-11-25T06:45:47+00:00→1669329947000</br>
      * 转换为正常24小时格式的时间戳
      */
-    public static long getTime(String date, String pattern) {
+    public static long isoDateToTimeStamp(String date, String pattern) {
         return getTimestamp(date, pattern);
+    }
+
+    /**
+     * @Author: LightRain
+     * @Date: 1/3/2023 下午 5:12
+     * @Param: [date]
+     * @Return: long
+     * @Description: 将日期字符串转成时间戳
+     * @since 17
+     */
+    public static long getTime(String date) {
+        return getDateTimeStamp(date, "yyyy-MM-dd HH:mm:ss");
+    }
+
+    /**
+     * @Author: LightRain
+     * @Date: 1/3/2023 下午 5:13
+     * @Param: [date, pattern]
+     * @Return: long
+     * @Description: 将日期字符串转成时间戳, 可指定日期格式
+     * @since 17
+     */
+    public static long getTime(String date, String pattern) {
+        return getDateTimeStamp(date, pattern);
+    }
+
+    /**
+     * @Author: LightRain
+     * @Date: 1/3/2023 下午 5:13
+     * @Param: [dateStr, format]
+     * @Return: long
+     * @Description: 将日期字符串转成时间戳, 可指定日期格式
+     * @since 17
+     */
+    private static long getDateTimeStamp(String dateStr, String format) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat(format);
+            return sdf.parse(dateStr).getTime() / 1000;
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -113,7 +154,7 @@ public class DateFormatUtil {
      * @Date: 21/2/2023 下午 5:04
      * @Param: [date, pattern] 偏移时间 日期表达式
      * @Return: long
-     * @Description: ISO偏移日期时间转换成时间戳
+     * @Description: ISO偏移日期转时间戳, 可指定日期格式
      * </br>
      * 例:</br>
      * date='2022-11-25T18:45:47+00:00'</br>
