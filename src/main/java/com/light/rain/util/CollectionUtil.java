@@ -12,7 +12,7 @@ import java.util.stream.Stream;
  * @Author: LightRain
  * @Description: Stream常用工具
  * @DateTime: 2023-02-24 11:25
- * @Version：1.0
+ * @Version：1.1
  **/
 public class CollectionUtil {
     /**
@@ -505,4 +505,27 @@ public class CollectionUtil {
         return list.stream().filter(predicate).count();
     }
 
+    /**
+     * @Author: LightRain
+     * @Date: 1/3/2023 下午 10:26
+     * @Param: [t]
+     * @Return: java.util.List<T>
+     * @Description: 转换为List集合
+     * @since 17
+     */
+    public static <T> List<T> toList(T t) {
+        return Stream.of(t).toList();
+    }
+
+    /**
+     * @Author: LightRain
+     * @Date: 1/3/2023 下午 10:26
+     * @Param: [t]
+     * @Return: java.lang.Object[]
+     * @Description: 转换为Array数组
+     * @since 17
+     */
+    public static <T> Object[] toArray(T t) {
+        return Stream.of(t).toArray();
+    }
 }
