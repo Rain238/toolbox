@@ -8,7 +8,6 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -532,7 +531,7 @@ public class FileUtil {
      * @Return: java.util.List<java.lang.String>
      * @Description: 逐行读取文件数据并返回数据集合
      */
-    public static List<String> readData(String path) throws IOException {
+    public static String readData(String path) throws IOException {
         return readFileData(path);
     }
 
@@ -543,7 +542,7 @@ public class FileUtil {
      * @Return: java.util.List<java.lang.String>
      * @Description: 逐行读取文件数据并返回数据集合
      */
-    public static List<String> readData(File path) throws IOException {
+    public static String readData(File path) throws IOException {
         return readFileData(path);
     }
 
@@ -554,18 +553,15 @@ public class FileUtil {
      * @Return: java.util.List<java.lang.String>
      * @Description: 逐行读取文件数据并返回数据集合
      */
-    private static List<String> readFileData(Object path) throws IOException {
-        ArrayList<String> list = new ArrayList<>();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path.toString())));
+    private static String readFileData(Object path) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path.toString())));
         String str;
-        while (true) {
-            str = reader.readLine();
-            if (str == null) {
-                break;
-            }
-            list.add(str);
+        while ((str = br.readLine()) != null) {
+            sb.append(str).append(System.lineSeparator());
         }
-        return list;
+        br.close();
+        return sb.toString();
     }
 
     /**
