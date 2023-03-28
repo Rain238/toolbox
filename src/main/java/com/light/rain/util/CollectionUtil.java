@@ -513,7 +513,8 @@ public class CollectionUtil {
      * @Description: 转换为List集合
      * @since 17
      */
-    public static <T> List<T> toList(T t) {
+    @SafeVarargs
+    public static <T> List<T> toList(T ...t) {
         return Stream.of(t).toList();
     }
 
@@ -525,7 +526,8 @@ public class CollectionUtil {
      * @Description: 转换为Array数组
      * @since 17
      */
-    public static <T> Object[] toArray(T t) {
+    @SafeVarargs
+    public static <T> Object[] toArray(T ...t) {
         return Stream.of(t).toArray();
     }
 }
