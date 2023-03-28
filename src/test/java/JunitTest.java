@@ -1,4 +1,8 @@
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.light.rain.build.Builder;
+import com.light.rain.example.pojo.Jpg;
+import com.light.rain.example.pojo.JsonTest;
 import com.light.rain.example.pojo.Page;
 import com.light.rain.example.pojo.Student;
 import com.light.rain.util.*;
@@ -7,12 +11,13 @@ import org.junit.Test;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.light.rain.util.Base64Util.*;
-import static com.light.rain.util.DateFormatUtil.getTime;
+import static com.light.rain.util.DateFormatUtil.*;
 import static com.light.rain.util.DirectoryScanUtil.getAllFileName;
 import static com.light.rain.util.Md5Util.*;
 
@@ -53,14 +58,16 @@ public class JunitTest {
     }
 
     @Test
-    public void DateFormatUtilTest() {
+    public void DateFormatUtilTest() throws ParseException {
+        System.out.println("将字符串日期转换为时间戳= " + getTime("2022-11-25 18:45:47"));
+        System.out.println("将字符串日期转换为时间戳= " + getTime("2022-11-25 18:45:47", "yyyy-MM-dd HH:mm:ss"));
         System.out.println("获取当前时间戳默认24小时格式 = " + getTime(System.currentTimeMillis()));
         System.out.println("获取当前时间戳并指定日期格式 = " + getTime(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss"));
         System.out.println("获取今日日期默认24小时格式 = " + getTime(0));
         System.out.println("获取今日日期并指定日期格式 = " + getTime(0, "yyyy-MM-dd HH:mm:ss"));
-        System.out.println("将时间偏移日期转换为时间戳 = " + getTime("2022-11-25T18:45:47+00:00"));
-        System.out.println("将时间偏移日期转换为时间戳并指定日期格式 = " + getTime("2022-11-25T18:45:47+00:00", "yyyy-MM-dd HH:mm:ss"));
-        long l = getTime("2022-11-25T18:45:47+00:00", "yyyy-MM-dd HH:mm:ss");
+        System.out.println("将时间偏移日期转换为时间戳 = " + isoDateToTimeStamp("2022-11-25T18:45:47+00:00"));
+        System.out.println("将时间偏移日期转换为时间戳并指定日期格式 = " + isoDateToTimeStamp("2022-11-25T18:45:47+00:00", "yyyy-MM-dd HH:mm:ss"));
+        long l = isoDateToTimeStamp("2022-11-25T18:45:47+00:00", "yyyy-MM-dd HH:mm:ss");
         System.out.println(getTime(l, "HH:mm:ss"));
     }
 
@@ -100,11 +107,7 @@ public class JunitTest {
      */
     @Test
     public void FileUtilTest() throws IOException {
-        System.out.println("FileUtil = " + FileUtil.readData("D:\\项目\\alicia\\alicia\\src\\main\\resources\\url.txt"));
-        List<String> list = FileUtil.readData("D:\\项目\\alicia\\alicia\\src\\main\\resources\\url.txt");
-        for (String s : list) {
-            FileUtil.writeData("D:\\项目\\alicia\\alicia\\src\\main\\resources\\123456.txt", s, true);
-        }
+        System.out.println(FileUtil.readData("D:\\项目\\alicia\\alicia\\src\\main\\resources\\url.txt"));
     }
 
     /**
@@ -125,10 +128,7 @@ public class JunitTest {
 
     @Test
     public void FileUtilTest3() throws IOException {
-        List<String> list = FileUtil.readData("D:\\项目\\alicia\\alicia\\src\\main\\resources\\url.txt");
-        for (String s : list) {
-            FileUtil.writeData("D:\\008.txt", s, Charset.UTF_8, true);
-        }
+        System.out.println(FileUtil.readData("D:\\项目\\alicia\\alicia\\src\\main\\resources\\url.txt"));
     }
 
     @Test
@@ -342,6 +342,58 @@ public class JunitTest {
         e.setSmtpHost(SmtpHost.SMTP_ALIYUN);
         boolean b = e.sendMail("测试邮件2", "123456");
         System.out.println("b = " + b);
+    }
+
+    @Test
+    public void JSONUtilTest() {
+        String json = "{\"uploadDate\":\"2022-10-27T03:06:07+00:00\",\"userName\":\"弾\",\"title\":\"エルフ放熱中...\",\"userId\":\"339939\"}";
+        JsonTest jsonTest = JsonUtil.jsonToObject(new JsonTest(), json);
+        System.out.println("getTitle() = " + jsonTest.getTitle());
+        System.out.println("getUpload_Date() = " + jsonTest.getUploadDate());
+        System.out.println("getUserId() = " + jsonTest.getUserId());
+        System.out.println("getUserName() = " + jsonTest.getUserName());
+    }
+
+    @Test
+    public void JSONUtilTest2() {
+        String json = "{\"uploadDate\":\"2022-10-27T03:06:07+00:00\",\"userName\":\"弾\",\"title\":\"エルフ放熱中...\",\"userId\":\"339939\"}";
+        JsonTest jsonTest = JsonUtil.jsonToObject(JsonTest::new, json);
+        System.out.println("getTitle() = " + jsonTest.getTitle());
+        System.out.println("getUpload_Date() = " + jsonTest.getUploadDate());
+        System.out.println("getUserId() = " + jsonTest.getUserId());
+        System.out.println("getUserName() = " + jsonTest.getUserName());
+    }
+
+    @Test
+    public void JSONUtilTest3() throws IOException {
+        String json = FileUtil.readData("E:\\Mirlkoi\\新建文件夹 (2)\\Crawled\\2022-10-28\\pic-data.json");
+        JSONObject jsonObject = JSON.parseObject(json);
+        Object data = jsonObject.get("data");
+        Object o = JSON.parseObject(data.toString()).get("102277142_p0.jpg");
+        System.out.println("o = " + o);
+        JsonTest jsonTest = JsonUtil.jsonToObject(JsonTest::new, o.toString());
+        System.out.println("jsonTest.getUserName() = " + jsonTest.getUserName());
+        System.out.println("jsonTest.getTitle() = " + jsonTest.getTitle());
+        System.out.println("jsonTest.getUserId() = " + jsonTest.getUserId());
+        System.out.println("jsonTest.getUploadDate() = " + jsonTest.getUploadDate());
+    }
+
+    @Test
+    public void JSONUtilTest4() throws IOException {
+        String json = FileUtil.readData("E:\\Mirlkoi\\新建文件夹 (2)\\Crawled\\2022-10-28\\pic-data.json");
+        JSONObject jsonObject = JSON.parseObject(json);
+        Object data = jsonObject.get("data");
+        Jpg jpg = JSONObject.parseObject(data.toString(), Jpg.class);
+        System.out.println("jpg.getJpg().getTitle() = " + jpg.getJpg().getTitle());
+    }
+
+    @Test
+    public void JSONUtilTest5() throws IOException {
+        String json = FileUtil.readData("E:\\Mirlkoi\\新建文件夹 (2)\\Crawled\\2022-10-28\\pic-data.json");
+        JSONObject jsonObject = JSON.parseObject(json);
+        Object data = jsonObject.get("data");
+        Jpg jpg = JsonUtil.parseObject(Jpg::new,data.toString());
+        System.out.println("jpg.getJpg().getTitle() = " + jpg.getJpg().getTitle());
     }
 
 }
